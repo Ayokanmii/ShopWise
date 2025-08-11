@@ -26,32 +26,45 @@ const ProductList = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-secondary dark:bg-primary p-6">
-      <h2 className="text-3xl font-bold text-center mb-8 text-primary dark:text-white">Our Products</h2>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4 sm:p-6 flex flex-col items-center">
+      <h2 className="text-2xl sm:text-3xl font-bold text-red-600 dark:text-white mb-6 sm:mb-8 text-center">
+        Our Products
+      </h2>
       {loading ? (
-        <p className="text-center text-gray-700 dark:text-[#b0b0b0]">Loading...</p>
+        <p className="text-center text-sm sm:text-base text-gray-700 dark:text-gray-300" aria-live="polite">
+          Loading...
+        </p>
       ) : products.length === 0 ? (
-        <p className="text-center text-gray-700 dark:text-[#b0b0b0]">No products available.</p>
+        <p className="text-center text-sm sm:text-base text-gray-700 dark:text-gray-300" aria-live="polite">
+          No products available.
+        </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-7xl mx-auto w-full">
           {products.map((product) => (
             <div
               key={product.id}
-              className="bg-white dark:bg-[#2d2d2d] rounded-lg shadow-md overflow-hidden transform transition hover:scale-105"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition hover:scale-105"
             >
               <img
-                src={product.image}
+                src={product.image || 'https://via.placeholder.com/300x200?text=No+Image'}
                 alt={product.name}
-                className="w-full h-48 object-cover"
+                className="w-full h-40 sm:h-48 object-cover"
               />
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-primary dark:text-white">{product.name}</h3>
-                <p className="text-gray-700 dark:text-[#b0b0b0] mt-1">{product.description}</p>
-                <p className="text-primary dark:text-white font-bold mt-2">${product.price.toFixed(2)}</p>
+                <h3 className="text-base sm:text-lg font-semibold text-red-600 dark:text-white">
+                  {product.name}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mt-1">
+                  {product.description || 'No description available.'}
+                </p>
+                <p className="text-red-600 dark:text-white font-bold mt-2">
+                  ${product.price.toFixed(2)}
+                </p>
                 <button
                   onClick={() => addToCart(product)}
-                  className="btn-primary w-full mt-4"
+                  className="w-full p-3 bg-red-600 text-white rounded-lg font-semibold mt-4 hover:bg-red-700 dark:hover:bg-red-500 disabled:bg-gray-400 dark:disabled:bg-gray-600"
                   disabled={product.stock === 0}
+                  aria-label={`Add ${product.name} to cart`}
                 >
                   {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
                 </button>
